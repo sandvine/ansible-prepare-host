@@ -11,6 +11,8 @@
     shell: git config --global user.name {{username.stdout_lines}}
   - name: Set git name
     shell: git config --global user.email {{email}}
+  - name: Set git matching behaviour
+    shell: git config --global push.default simple
   - name: .exrc template
     template: src=templates/.exrc dest=~cloud/.exrc owner=cloud group=cloud mode=0644
   - name: fix git remote to be ssh transport
