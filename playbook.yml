@@ -1,0 +1,18 @@
+---
+- hosts: all
+  vars_files:
+    - params.yml
+  tasks:
+  - name: Get user name
+    local_action: shell getent passwd $(whoami) | cut -d':' -f5 | cut -d, -f1
+    register: username
+
+  - name: Set git name
+    shell: git config --global user.name {{username.stdout_lines}}
+  - name: Set git name
+    shell: git config --global user.email {{email}}
+  - name: .exrc template
+    template: src=templates/.exrc dest=~cloud/.exrc owner=cloud group=cloud mode=0644
+  - name: fix git remote to be ssh transport
+    shell: sed -i -e 's?https://git.sandvine.rocks/?git@git.sandvine.rocks:?g' /home/cloud/*/.git/config
+

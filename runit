@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ $# != 1 ]
+then
+    echo "Usage: $0 stackname"
+    exit 1
+fi
+stack=$1
+ansible-playbook -v -u cloud -i ${stack}-sde+nubo,${stack}-pts+nubo,${stack}-spb+nubo, playbook.yml
